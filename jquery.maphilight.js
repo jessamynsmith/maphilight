@@ -207,7 +207,7 @@
 		}
 		
 		return this.each(function() {
-			var img, wrap, options, map, canvas, canvas_always, mouseover, highlighted_shape, usemap;
+			var img, wrap, options, map, canvas, canvas_always, mouseover, tap, highlighted_shape, usemap;
 			img = $(this);
 
 			if(!is_image_loaded(this)) {
@@ -265,9 +265,13 @@
 			$(canvas).css(canvas_style);
 			canvas.height = this.height;
 			canvas.width = this.width;
+
+			tap = function(e) {
+				clear_canvas(canvas);
+				mouseover(e);
+      }
 			
 			mouseover = function(e) {
-				clear_canvas(canvas);
 				var shape, area_options;
 				area_options = options_from_area(this, options);
 				if(
@@ -335,7 +339,8 @@
 			});
 			
 			$(map).trigger('alwaysOn.maphilight').find('area[coords]')
-				.bind('mouseover.maphilight tap.maphilight', mouseover)
+				.bind('tap.maphilight', tap)
+				.bind('mouseover.maphilight', mouseover)
 				.bind('mouseout.maphilight', function(e) { clear_canvas(canvas); });
 			
 			img.before(canvas); // if we put this after, the mouseover events wouldn't fire.
