@@ -269,32 +269,32 @@
 			tap = function(e) {
 				clear_canvas(canvas);
 				mouseover(e);
-      }
+			};
 			
 			mouseover = function(e) {
-				var shape, area_options;
-				area_options = options_from_area(this, options);
+				var shape, area_options, target=e.currentTarget;
+				area_options = options_from_area(target, options);
 				if(
 					!area_options.neverOn
 					&&
 					!area_options.alwaysOn
 				) {
-					shape = shape_from_area(this);
+					shape = shape_from_area(target);
 					add_shape_to(canvas, shape[0], shape[1], area_options, "highlighted");
 					if(area_options.groupBy) {
 						var areas;
 						// two ways groupBy might work; attribute and selector
 						if(/^[a-zA-Z][\-a-zA-Z]+$/.test(area_options.groupBy)) {
-							areas = map.find('area['+area_options.groupBy+'="'+$(this).attr(area_options.groupBy)+'"]');
+							areas = map.find('area['+area_options.groupBy+'="'+$(target).attr(area_options.groupBy)+'"]');
 						} else {
 							areas = map.find(area_options.groupBy);
 						}
-						var first = this;
+						var first = target;
 						areas.each(function() {
-							if(this != first) {
-								var subarea_options = options_from_area(this, options);
+							if(target != first) {
+								var subarea_options = options_from_area(target, options);
 								if(!subarea_options.neverOn && !subarea_options.alwaysOn) {
-									var shape = shape_from_area(this);
+									var shape = shape_from_area(target);
 									add_shape_to(canvas, shape[0], shape[1], subarea_options, "highlighted");
 								}
 							}
