@@ -267,6 +267,7 @@
 			canvas.width = this.width;
 			
 			mouseover = function(e) {
+				clear_canvas(canvas);
 				var shape, area_options;
 				area_options = options_from_area(this, options);
 				if(
@@ -334,7 +335,7 @@
 			});
 			
 			$(map).trigger('alwaysOn.maphilight').find('area[coords]')
-				.bind('mouseover.maphilight', mouseover)
+				.bind('mouseover.maphilight tap.maphilight', mouseover)
 				.bind('mouseout.maphilight', function(e) { clear_canvas(canvas); });
 			
 			img.before(canvas); // if we put this after, the mouseover events wouldn't fire.
